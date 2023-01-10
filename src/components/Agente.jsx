@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { AgenteService } from '../services/AgenteService';
 
-const Agente = ({ idagente, idgrado }) => {
+const Agente = ({ idagente, idgrado, selAgente, selGrado}) => {
+
     const [grados, setGrados] = useState(null);
     const [agentes, setAgentes] = useState(null);
     const [grado, setGrado] = useState(null);
@@ -18,6 +19,19 @@ const Agente = ({ idagente, idgrado }) => {
             setGrados(data)
         });
     }, []);
+
+    useEffect(() => {
+      if(selAgente){
+        setAgente(selAgente)
+      }
+    }, [agentes])
+
+    useEffect(() => {
+      if(selGrado){
+        setGrado(selGrado)
+      }
+    }, [agentes])
+    
 
 
     return (

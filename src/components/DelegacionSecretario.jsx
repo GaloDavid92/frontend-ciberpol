@@ -16,7 +16,7 @@ import Art444 from './Art444';
 
 import { DelegacionService } from '../services/DelegacionService';
 
-const DelegacionSecretario = ({ abrir }) => {
+const DelegacionSecretario = ({ abrir, mode, selectedDelegacion }) => {
 
    const toast = useRef(null);
 
@@ -49,6 +49,39 @@ const DelegacionSecretario = ({ abrir }) => {
    const [plazoOtorgado, setPlazoOtorgado] = useState(0)
    const [art444, setArt444] = useState({})
 
+
+   useEffect(() => {
+      if (mode && mode == "U") {
+         setMesIngreso(selectedDelegacion.mesIngreso)
+         setNumInvestPrevia(selectedDelegacion.numInvestPrevia)
+         setNumInstFiscal(selectedDelegacion.numInstFiscal)
+         setIdDistrito(selectedDelegacion.idDistrito)
+         setIdAgente(selectedDelegacion.idAgente)
+         setIdGrado(selectedDelegacion.idGrado)
+         setIdDelito(selectedDelegacion.idDelito)
+         setIdModalidad(selectedDelegacion.idModalidad)
+         setFechaInfraccion(selectedDelegacion.fechaInfraccion)
+         setNombreVictima(selectedDelegacion.nombreVictima)
+         setSexoVictima(selectedDelegacion.sexoVictima)
+         setEdadVictima(selectedDelegacion.edadVictima)
+         setNombreDetenido(selectedDelegacion.nombreDetenido)
+         setIdCondicion(selectedDelegacion.idCondicion)
+         setIdParentesco(selectedDelegacion.idParentesco)
+         setNombreFiscal(selectedDelegacion.nombreFiscal)
+         setUnidadFiscalia(selectedDelegacion.unidadFiscalia)
+         setFechaDelegacion(selectedDelegacion.fechaDelegacion)
+         setFechaRecepcionPJ(selectedDelegacion.fechaRecepcionPJ)
+         setFechaRecAgente(selectedDelegacion.fechaRecAgente)
+         setNumOficioRecAgente(selectedDelegacion.numOficioRecAgente)
+         setPlazoOtorgado(selectedDelegacion.plazoOtorgado)
+         setArt444(selectedDelegacion.art444)
+      }
+      let fecha = selectedDelegacion.fechaDelegacion
+      console.log("🚀 ~ file: DelegacionSecretario.jsx:81 ~ useEffect ~ fechaDelegacion", fecha) //2022-12-06T05:00:00.000Z
+   }, [])
+
+
+
    const meses = [
       'Enero',
       'Febrero',
@@ -65,7 +98,7 @@ const DelegacionSecretario = ({ abrir }) => {
    ];
    const sexos = [
       "Masculino",
-      "Femenino"
+      "Femenino",
    ]
 
    function validate() {
@@ -142,7 +175,6 @@ const DelegacionSecretario = ({ abrir }) => {
 
    const saveDelegacion = () => {
       const errores = validate()
-      console.log("🚀 ~ file: DelegacionSecretario.jsx:147 ~ saveDelegacion ~ errores", errores)
       if (Object.keys(errores).length !== 0) {
          toast.current.show({ severity: 'error', summary: 'Campos requeridos', detail: 'Ingrese todos los campos reueridos' });
       } else {
@@ -173,10 +205,10 @@ const DelegacionSecretario = ({ abrir }) => {
          }
          setSaving(true)
          svcDelegacion.saveDelegacion(objDelegacion).then((data) => {
-            if(data.id){
+            if (data.id) {
                setShowMessage(true)
             }
-            else{
+            else {
                toast.current.show({ severity: 'error', summary: 'Error', detail: 'A ocurrido algun error' });
                setSaving(false)
             }
@@ -196,173 +228,173 @@ const DelegacionSecretario = ({ abrir }) => {
                <Button label='Ok' onClick={() => abrir(false)} />
             </div>
          </Dialog>
-      <div className='m-5'>
-         <h1>Delegación</h1>
-         <br />
-         <div className="card">
-            <Fieldset legend="Datos Preliminares">
-               <br />
-               <div className="p-fluid grid">
-                  <div className="field col-12 md:col-4">
-                     <span className="p-float-label">
-                        <InputText id="txtNumInv" value={numInvestPrevia} className={!numInvestPrevia && 'p-invalid'}
-                           onChange={(e) => {
-                              setNumInvestPrevia(e.target.value)
-                           }} />
-                        <label htmlFor="txtNumInv">NÚMERO DE INVESTIGACIÓN PREVIA</label>
-                     </span>
-                  </div>
-                  <div className="field col-12 md:col-4">
-                     <span className="p-float-label">
-                        <InputText id="txtNumInsFis" value={numInstFiscal} className={!numInstFiscal && 'p-invalid'}
-                           onChange={(e) => setNumInstFiscal(e.target.value)} />
-                        <label htmlFor="txtNumInsFis">NÚMERO DE INSTRUCCIÓN FISCAL</label>
-                     </span>
-                  </div>
-                  <div className="field col-12 md:col-4">
-                     <span className="p-float-label">
-                        <Dropdown inputId="ddlMesIngreso" value={mesIngreso} options={meses} className={!mesIngreso && 'p-invalid'}
-                           onChange={(e) => {
-                              setMesIngreso(e.value)
-                           }}
-                           showClear
-                        />
-                        <label htmlFor="ddlMesIngreso">MES DE INGRESO DE DISPOSICIONES FISCALES</label>
-                     </span>
-                  </div>
+         <div className='m-5'>
+            <h1>Delegación</h1>
+            <br />
+            <div className="card">
+               <Fieldset legend="Datos Preliminares">
+                  <br />
+                  <div className="p-fluid grid">
+                     <div className="field col-12 md:col-4">
+                        <span className="p-float-label">
+                           <InputText id="txtNumInv" value={numInvestPrevia} className={!numInvestPrevia && 'p-invalid'}
+                              onChange={(e) => {
+                                 setNumInvestPrevia(e.target.value)
+                              }} />
+                           <label htmlFor="txtNumInv">NÚMERO DE INVESTIGACIÓN PREVIA</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-4">
+                        <span className="p-float-label">
+                           <InputText id="txtNumInsFis" value={numInstFiscal} className={!numInstFiscal && 'p-invalid'}
+                              onChange={(e) => setNumInstFiscal(e.target.value)} />
+                           <label htmlFor="txtNumInsFis">NÚMERO DE INSTRUCCIÓN FISCAL</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-4">
+                        <span className="p-float-label">
+                           <Dropdown inputId="ddlMesIngreso" value={mesIngreso} options={meses} className={!mesIngreso && 'p-invalid'}
+                              onChange={(e) => {
+                                 setMesIngreso(e.value)
+                              }}
+                              showClear
+                           />
+                           <label htmlFor="ddlMesIngreso">MES DE INGRESO DE DISPOSICIONES FISCALES</label>
+                        </span>
+                     </div>
 
-                  <Ubicacion ubicacion={setIdDistrito} />
+                     <Ubicacion ubicacion={setIdDistrito} selDistrito={selectedDelegacion && selectedDelegacion.distrito} />
 
-                  <Agente idagente={setIdAgente} idgrado={setIdGrado} />
+                     <Agente idagente={setIdAgente} idgrado={setIdGrado} selAgente={selectedDelegacion && selectedDelegacion.agente} selGrado={selectedDelegacion && selectedDelegacion.grado} />
 
-               </div>
-            </Fieldset>
-         </div>
-         <div className='mt-3'>
-            <Fieldset legend="Datos del Delito">
-               <br />
-               <div className="p-fluid grid">
-                  <Delito iddelito={setIdDelito} idmodalidad={setIdModalidad} fechainfraccion={setFechaInfraccion} />
-               </div>
-            </Fieldset>
-         </div>
-         <div className='mt-3'>
-            <Fieldset legend="Datos de la víctima">
-               <br />
-               <div className="p-fluid grid">
-                  <div className="field col-12 md:col-6">
-                     <span className="p-float-label">
-                        <InputText id="txtApeNomVictima" value={nombreVictima} className={!nombreVictima && 'p-invalid'}
-                           onChange={(e) => setNombreVictima(e.target.value)} />
-                        <label htmlFor="txtApeNomVictima">APELLIDOS Y NOMBRES DE LA VÍCTIMA</label>
-                     </span>
                   </div>
-                  <div className="field col-12 md:col-3">
-                     <span className="p-float-label">
-                        <Dropdown inputId="ddlSexoVictima" value={sexoVictima} className={!sexoVictima && 'p-invalid'}
-                           options={sexos} onChange={(e) => setSexoVictima(e.value)} />
-                        <label htmlFor="ddlSexoVictima">SEXO</label>
-                     </span>
+               </Fieldset>
+            </div>
+            <div className='mt-3'>
+               <Fieldset legend="Datos del Delito">
+                  <br />
+                  <div className="p-fluid grid">
+                     <Delito iddelito={setIdDelito} idmodalidad={setIdModalidad} fechainfraccion={setFechaInfraccion} selDelito={selectedDelegacion && selectedDelegacion.delito} selIdModalidad={selectedDelegacion && selectedDelegacion.idModalidad} selFecha={selectedDelegacion && selectedDelegacion.fechaInfraccion} />
                   </div>
-                  <div className="field col-12 md:col-3">
-                     <span className="p-float-label">
-                        <InputNumber inputId="txtNumInsFis" value={edadVictima} className={!edadVictima && 'p-invalid'}
-                           onChange={(e) => setEdadVictima(e.value)} />
-                        <label htmlFor="txtNumInsFis">EDAD</label>
-                     </span>
+               </Fieldset>
+            </div>
+            <div className='mt-3'>
+               <Fieldset legend="Datos de la víctima">
+                  <br />
+                  <div className="p-fluid grid">
+                     <div className="field col-12 md:col-6">
+                        <span className="p-float-label">
+                           <InputText id="txtApeNomVictima" value={nombreVictima} className={!nombreVictima && 'p-invalid'}
+                              onChange={(e) => setNombreVictima(e.target.value)} />
+                           <label htmlFor="txtApeNomVictima">APELLIDOS Y NOMBRES DE LA VÍCTIMA</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-3">
+                        <span className="p-float-label">
+                           <Dropdown inputId="ddlSexoVictima" value={sexoVictima} className={!sexoVictima && 'p-invalid'}
+                              options={sexos} onChange={(e) => setSexoVictima(e.value)} />
+                           <label htmlFor="ddlSexoVictima">SEXO</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-3">
+                        <span className="p-float-label">
+                           <InputNumber inputId="txtNumInsFis" value={edadVictima} className={!edadVictima && 'p-invalid'}
+                              onChange={(e) => setEdadVictima(e.value)} />
+                           <label htmlFor="txtNumInsFis">EDAD</label>
+                        </span>
+                     </div>
                   </div>
-               </div>
-            </Fieldset>
-         </div>
-         <div className='mt-3'>
-            <Fieldset legend="Datos del Detenido">
-               <br />
-               <div className="p-fluid grid">
-                  <Detenido nombredetenido={setNombreDetenido} idcondicion={setIdCondicion} idparentesco={setIdParentesco} />
-               </div>
-            </Fieldset>
-         </div>
-         <div className='mt-3'>
-            <Fieldset legend="Datos de Fiscalía">
-               <br />
-               <div className="p-fluid grid">
-                  <div className="field col-12 md:col-6">
-                     <span className="p-float-label">
-                        <InputText id="txtNombreFiscal" value={nombreFiscal} className={!nombreFiscal && 'p-invalid'}
-                           onChange={(e) => setNombreFiscal(e.target.value)} />
-                        <label htmlFor="txtNombreFiscal">APELLIDOS Y NOMBRES DEL FISCAL</label>
-                     </span>
+               </Fieldset>
+            </div>
+            <div className='mt-3'>
+               <Fieldset legend="Datos del Detenido">
+                  <br />
+                  <div className="p-fluid grid">
+                     <Detenido nombredetenido={setNombreDetenido} idcondicion={setIdCondicion} idparentesco={setIdParentesco} selNombreDetenido={selectedDelegacion && selectedDelegacion.nombreDetenido} selIdCondicion={selectedDelegacion && selectedDelegacion.idCondicion} selIdParentesco={selectedDelegacion && selectedDelegacion.idParentesco} />
                   </div>
-                  <div className="field col-12 md:col-6">
-                     <span className="p-float-label">
-                        <InputText id="txtUnidadFiscalia" value={unidadFiscalia} className={!unidadFiscalia && 'p-invalid'}
-                           onChange={(e) => setUnidadFiscalia(e.target.value)} />
-                        <label htmlFor="txtUnidadFiscalia">UNIDAD ESPECIALIZADA DE FISCALIA</label>
-                     </span>
+               </Fieldset>
+            </div>
+            <div className='mt-3'>
+               <Fieldset legend="Datos de Fiscalía">
+                  <br />
+                  <div className="p-fluid grid">
+                     <div className="field col-12 md:col-6">
+                        <span className="p-float-label">
+                           <InputText id="txtNombreFiscal" value={nombreFiscal} className={!nombreFiscal && 'p-invalid'}
+                              onChange={(e) => setNombreFiscal(e.target.value)} />
+                           <label htmlFor="txtNombreFiscal">APELLIDOS Y NOMBRES DEL FISCAL</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-6">
+                        <span className="p-float-label">
+                           <InputText id="txtUnidadFiscalia" value={unidadFiscalia} className={!unidadFiscalia && 'p-invalid'}
+                              onChange={(e) => setUnidadFiscalia(e.target.value)} />
+                           <label htmlFor="txtUnidadFiscalia">UNIDAD ESPECIALIZADA DE FISCALIA</label>
+                        </span>
+                     </div>
                   </div>
-               </div>
-            </Fieldset>
-         </div>
-         <div className='mt-3'>
-            <Fieldset legend="Datos de la Delegación">
-               <br />
-               <div className="p-fluid grid">
-                  <div className="field col-12 md:col-4">
-                     <span className="p-float-label">
-                        <Calendar id="calFechaDelegacion" value={fechaDelegacion} className={!fechaDelegacion && 'p-invalid'}
-                           onChange={(e) => setFechaDelegacion(e.value)} />
-                        <label htmlFor="calFechaDelegacion">FECHA DE LA DELEGACIÓN</label>
-                     </span>
+               </Fieldset>
+            </div>
+            <div className='mt-3'>
+               <Fieldset legend="Datos de la Delegación">
+                  <br />
+                  <div className="p-fluid grid">
+                     <div className="field col-12 md:col-4">
+                        <span className="p-float-label">
+                           <Calendar id="calFechaDelegacion" value={fechaDelegacion} className={!fechaDelegacion && 'p-invalid'}
+                              onChange={(e) => setFechaDelegacion(e.value)} />
+                           <label htmlFor="calFechaDelegacion">FECHA DE LA DELEGACIÓN</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-4">
+                        <span className="p-float-label">
+                           <Calendar id="calFechaRecPJ" value={fechaRecepcionPJ} className={!fechaRecepcionPJ && 'p-invalid'}
+                              onChange={(e) => setFechaRecepcionPJ(e.value)} />
+                           <label htmlFor="calFechaRecPJ">FECHA DE RECEPCIÓN EN LA PJ</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-4">
+                        <span className="p-float-label">
+                           <Calendar id="calFechaRecAgente" value={fechaRecAgente} className={!fechaRecAgente && 'p-invalid'}
+                              onChange={(e) => setFechaRecAgente(e.value)} />
+                           <label htmlFor="calFechaRecAgente">FECHA DE RECEPCION AGENTE INVESTIGADOR</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-8">
+                        <span className="p-float-label">
+                           <InputText id="txtNumOficioRecAgente" value={numOficioRecAgente} className={!numOficioRecAgente && 'p-invalid'}
+                              onChange={(e) => setNumOficioRecAgente(e.target.value)} />
+                           <label htmlFor="txtNumOficioRecAgente">Nº DE OFICIO CON LA QUE RECIBE LA DILIGENCIA EL AGENTE</label>
+                        </span>
+                     </div>
+                     <div className="field col-12 md:col-4">
+                        <span className="p-float-label">
+                           <InputNumber value={plazoOtorgado} className={!plazoOtorgado && 'p-invalid'}
+                              onValueChange={(e) => {
+                                 setPlazoOtorgado(e.value)
+                              }}
+                              showButtons buttonLayout="horizontal" decrementButtonClassName="p-button-info" incrementButtonClassName="p-button-info"
+                              incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" prefix="Plazo otorgado: " suffix=" días" />
+                        </span>
+                     </div>
                   </div>
-                  <div className="field col-12 md:col-4">
-                     <span className="p-float-label">
-                        <Calendar id="calFechaRecPJ" value={fechaRecepcionPJ} className={!fechaRecepcionPJ && 'p-invalid'}
-                           onChange={(e) => setFechaRecepcionPJ(e.value)} />
-                        <label htmlFor="calFechaRecPJ">FECHA DE RECEPCIÓN EN LA PJ</label>
-                     </span>
+                  <br />
+                  <div className="p-fluid grid">
+                     <Art444 a444={setArt444} />
                   </div>
-                  <div className="field col-12 md:col-4">
-                     <span className="p-float-label">
-                        <Calendar id="calFechaRecAgente" value={fechaRecAgente} className={!fechaRecAgente && 'p-invalid'}
-                           onChange={(e) => setFechaRecAgente(e.value)} />
-                        <label htmlFor="calFechaRecAgente">FECHA DE RECEPCION AGENTE INVESTIGADOR</label>
-                     </span>
-                  </div>
-                  <div className="field col-12 md:col-8">
-                     <span className="p-float-label">
-                        <InputText id="txtNumOficioRecAgente" value={numOficioRecAgente} className={!numOficioRecAgente && 'p-invalid'}
-                           onChange={(e) => setNumOficioRecAgente(e.target.value)} />
-                        <label htmlFor="txtNumOficioRecAgente">Nº DE OFICIO CON LA QUE RECIBE LA DILIGENCIA EL AGENTE</label>
-                     </span>
-                  </div>
-                  <div className="field col-12 md:col-4">
-                     <span className="p-float-label">
-                        <InputNumber value={plazoOtorgado} className={!plazoOtorgado && 'p-invalid'}
-                           onValueChange={(e) => {
-                              setPlazoOtorgado(e.value)
-                           }}
-                           showButtons buttonLayout="horizontal" decrementButtonClassName="p-button-info" incrementButtonClassName="p-button-info" 
-                           incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" prefix="Plazo otorgado: " suffix=" días" />
-                     </span>
-                  </div>
-               </div>
-               <br />
-               <div className="p-fluid grid">
-                  <Art444 a444={setArt444} />
-               </div>
-            </Fieldset>
-         </div>
-         <div className="card">
-            <div className="relative mx-3 my-3 md:my-0 border-round">
+               </Fieldset>
+            </div>
+            <div className="card">
+               <div className="relative mx-3 my-3 md:my-0 border-round">
 
-               <div className="text-white font-bold flex align-items-center mt-5 justify-content-center border-round">
-                  <Button label="Guardar" onClick={(e) => saveDelegacion()} icon={saving ? "pi pi-spin pi-spinner" : "pi pi-save"} disabled={saving} className='m-2 p-button-success' />
-                  <Button label="Cerrar" onClick={(e) => abrir(false)} icon="pi pi-times" className='m-2 p-button-danger' />
-                  <Toast ref={toast} />
+                  <div className="text-white font-bold flex align-items-center mt-5 justify-content-center border-round">
+                     <Button label="Guardar" onClick={(e) => saveDelegacion()} icon={saving ? "pi pi-spin pi-spinner" : "pi pi-save"} disabled={saving} className='m-2 p-button-success' />
+                     <Button label="Cerrar" onClick={(e) => abrir(false)} icon="pi pi-times" className='m-2 p-button-danger' />
+                     <Toast ref={toast} />
+                  </div>
                </div>
             </div>
          </div>
-      </div>
       </>
    );
 }

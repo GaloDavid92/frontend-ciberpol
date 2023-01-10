@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
-import { SplitButton } from 'primereact/splitbutton';
 import { Toast } from 'primereact/toast';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -17,7 +16,8 @@ function Delegaciones() {
 
     const [visibleFullScreen, setVisibleFullScreen] = useState(false);
     const [delegaciones, setDelegaciones] = useState(null);
-    const [selectedDelegacion, setSelectedDelegacion] = useState(null);
+    const [selectedDelegacion, setSelectedDelegacion] = useState({});
+    const [mode, setmode] = useState("")
     
 
     useEffect(() => {
@@ -26,44 +26,29 @@ function Delegaciones() {
         })
     }, [visibleFullScreen]);
 
-    const toast = useRef(null);
-    const items = [
-        {
-            label: 'Update',
-            icon: 'pi pi-refresh',
-            command: (e) => {
-                toast.current.show({ severity: 'success', summary: 'Updated', detail: 'Data Updated' });
-            }
-        },
-        {
-            label: 'Delete',
-            icon: 'pi pi-times',
-            command: (e) => {
-                toast.current.show({ severity: 'success', summary: 'Delete', detail: 'Data Deleted' });
-            }
-        },
-        {
-            label: 'React Website',
-            icon: 'pi pi-external-link',
-            command: (e) => {
-                window.location.href = 'https://facebook.github.io/react/'
-            }
-        },
-        {
-            label: 'Upload',
-            icon: 'pi pi-upload',
-            command: (e) => {
-                window.location.hash = "/fileupload"
-            }
-        }
-    ]
+    function isEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+
+    const toast = useRef(null);    
 
     const leftContents = (
         <React.Fragment>
-            <Button label="Nueva" icon="pi pi-plus" className="mr-2" onClick={() => setVisibleFullScreen(true)} />
-            <Button label="Upload" icon="pi pi-upload" className="p-button-success" />
-            <i className="pi pi-bars p-toolbar-separator mr-2" />
-            <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-warning"></SplitButton>
+            <Button label="Nueva" icon="pi pi-plus" className="mr-2"
+                onClick={() => {
+                    setmode("C")
+                    setVisibleFullScreen(true)
+                    setSelectedDelegacion({})
+                }} />
+            <Button label="Editar" icon="pi pi-pencil" className="p-button-success"
+                onClick={() => {
+                    if(!isEmpty(selectedDelegacion)){                        
+                        setmode("U")
+                        setVisibleFullScreen(true)
+                    }else{
+                        toast.current.show({severity: 'warn', summary: 'No seleccionado', detail: 'Seleccione la delegación que desea editar'});
+                    }
+                }} />
         </React.Fragment>
     );
 
@@ -75,6 +60,13 @@ function Delegaciones() {
         </React.Fragment>
     );
 
+    const abrir = (x) =>{
+        setVisibleFullScreen(x);
+        if(!x){            
+            setSelectedDelegacion({})
+        }
+
+    }
 
     return (
         <>
@@ -95,8 +87,12 @@ function Delegaciones() {
                     </DataTable>
                 </div>
             </div>
-            <Sidebar visible={visibleFullScreen} fullScreen onHide={() => setVisibleFullScreen(false)}>
-                <DelegacionSecretario abrir={setVisibleFullScreen} />
+            <Sidebar visible={visibleFullScreen} fullScreen
+                onHide={() => {
+                    setSelectedDelegacion({})
+                    setVisibleFullScreen(false)
+                    }}>
+                <DelegacionSecretario abrir={abrir} mode={mode} selectedDelegacion={selectedDelegacion} />
             </Sidebar>
         </>
     )

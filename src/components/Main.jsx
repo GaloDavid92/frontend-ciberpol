@@ -7,6 +7,7 @@ import Delegaciones from './Delegaciones';
 import Agentes from './Agentes';
 import DelegacionSecretario from './DelegacionSecretario';
 import DelegacionAgente from './DelegacionAgente';
+import Reportes from './Reportes'
 
 function Main() {
    const [activeIndex, setActiveIndex] = useState(0)
@@ -26,7 +27,7 @@ function Main() {
                   <p style={{color: 'white'}}>&nbsp;CIBERPOL</p>
                </div>
                <div className="flex-grow-1  m-0 px-0 py-0 border-round">
-                  <TabMenu model={items} activeIndex={activeIndex} 
+                  <TabMenu model={items} activeIndex={activeIndex} end={<div>Hola</div>}
                   onTabChange={(e) => {
                      setActiveIndex(e.index);
                   }} />
@@ -37,6 +38,7 @@ function Main() {
          {activeIndex == 1 && <Agentes/>}
          {activeIndex == 2 && <DelegacionSecretario/>}
          {activeIndex == 3 && <DelegacionAgente idDelegacion={10}/>}
+         {activeIndex == 4 && <Reportes/>}
       </>
    );
 }

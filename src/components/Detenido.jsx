@@ -3,7 +3,7 @@ import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { DetenidoService } from '../services/DetenidoService';
 
-const Detenido = ({ nombredetenido, idcondicion, idparentesco }) => {
+const Detenido = ({ nombredetenido, idcondicion, idparentesco, selNombreDetenido, selIdCondicion, selIdParentesco }) => {
     const [nombreDetenido, setNombreDetenido] = useState("");
     const [condiciones, setCondiciones] = useState(null);
     const [condicion, setCondicion] = useState(null);
@@ -19,7 +19,28 @@ const Detenido = ({ nombredetenido, idcondicion, idparentesco }) => {
         svcDetenido.getParentescos().then((data) => {
             setParentescos(data)
         });
+        if(selNombreDetenido){
+            setNombreDetenido(selNombreDetenido)
+        }
     }, []);
+    
+    useEffect(() => {
+        if(condiciones && selIdCondicion){
+            const result = condiciones.find( c => {
+                return c.id === selIdCondicion
+            })
+            setCondicion(result)
+        }
+    }, [condiciones]);
+    
+    useEffect(() => {
+        if(parentescos && selIdParentesco){
+            const result = parentescos.find( c => {
+                return c.id === selIdParentesco
+            })
+            setParentesco(result)
+        }
+    }, [parentescos]);
 
 
     return (

@@ -15,12 +15,13 @@ export class UsuarioService {
     }
 
     getSession = async () => {
-        const response = await fetch(getURL() + '/auth/login',{
+        const response = await fetch(getURL() + '/auth/login', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
-        });     
+        });
         const data = await response.json();
+        console.log(data);
         return data;
     }
 }    

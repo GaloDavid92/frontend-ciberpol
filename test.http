@@ -1,12 +1,12 @@
 
 ###
-POST http://localhost:3000/login HTTP/1.1
+POST http://localhost:3000/auth/login HTTP/1.1
 content-type: application/json
 
 {
-    "correo": "rubio.galo@gmail.com",
-    "clave": "3esXfe7f"
+    "correo": "ricardo.munoz@ciberpol.com",
+    "clave": "12345"
 }
 
 ###
-GET http://localhost:3000/session HTTP/1.1
+GET http://localhost:3000/auth/login HTTP/1.1

@@ -5,6 +5,7 @@ import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import { classNames } from 'primereact/utils';
 import uncLogo from '../assets/LOGOUNC.png';
+
 import { UsuarioService } from '../services/UsuarioService';
 
 const Login = ({isloged}) => {
@@ -47,6 +48,8 @@ const Login = ({isloged}) => {
                 resp ? setincorrectlogin(false) : setincorrectlogin(true)
                 svcUsuario.getSession().then(r => {
                     r.id ? isloged(true) : isloged(false)
+                    console.log("🚀 ~ file: Login.jsx:51 ~ svcUsuario.getSession ~ r", r)
+                    // isloged(true)
                 })
             })
         }
@@ -58,7 +61,12 @@ const Login = ({isloged}) => {
     };
 
     return (
-        <div className="form-demo">
+        <div className="form-demo">            
+            <button onClick={()=>{
+                svcUsuario.getSession().then(r => {
+                    console.log("🚀 ~ file: Login.jsx:67 ~ svcUsuario.getSession ~ r", r)
+                })
+            }}>GET SESSION</button>
             <div className="flex justify-content-center">
                 <div className="card">
                     <div className='text-center'>

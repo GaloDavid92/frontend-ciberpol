@@ -50,7 +50,6 @@ const DelegacionAgente = ({idDelegacion, abrir}) => {
       })
    },[])
 
-
    const meses = [
       'Enero',
       'Febrero',
@@ -89,7 +88,6 @@ const DelegacionAgente = ({idDelegacion, abrir}) => {
          observaciones
       }
       svcDelegacion.updDelegacionAgente(objDelegacion).then((data) => {
-         console.log("🚀 ~ file: DelegacionAgente.jsx:92 ~ svcDelegacion.updDelegacionAgente ~ data", data)
          setSaving(false)
          toast.current.show({ severity: 'success', summary: 'Guardado', detail: 'Delegación actualizada con éxito' });
      });

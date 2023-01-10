@@ -61,8 +61,7 @@ const AgenteData = ({ abrir, mode, agente}) => {
     const submitAgente = (data) => {
         setFormData(data);
         if (mode == "C") {
-            svcAgente.saveAgente(
-                {
+            svcAgente.saveAgente({
                     nombre: data.name,
                     correo: data.email
                 })
@@ -70,11 +69,9 @@ const AgenteData = ({ abrir, mode, agente}) => {
                 resp.error? console.log("🚀 ~ file: AgenteData.jsx ~ line 57 ~ .then ~ resp", resp) : setShowMessage(true);
                 formik.resetForm();
             });
-
         }
         if (mode == "U") {
-            svcAgente.editAgente(
-                {
+            svcAgente.editAgente({
                     id: data.id,
                     nombre: data.name,
                     correo: data.email
@@ -83,9 +80,7 @@ const AgenteData = ({ abrir, mode, agente}) => {
                 setShowMessage(true);
                 formik.resetForm();
             });
-
         }
-
     }
 
     

@@ -3,7 +3,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { DelitoService } from '../services/DelitoService';
 
-const Delito = ({iddelito, idmodalidad, fechainfraccion}) => {
+const Delito = ({iddelito, idmodalidad, fechainfraccion, selDelito, selIdModalidad, selFecha}) => {
 
     const [secciones, setSecciones] = useState(null);
     const [delitos, setDelitos] = useState(null);
@@ -22,7 +22,38 @@ const Delito = ({iddelito, idmodalidad, fechainfraccion}) => {
         svcDelito.getModalidades().then((data) => {
             setModalidades(data)
         });
+        if(selFecha){
+            setFecha(new Date(selFecha))
+        }
     }, []);
+
+    useEffect(() => {
+        if (selDelito && secciones) {
+                const result = secciones.find(sec => {
+                    return sec.id === selDelito.seccion.id
+                })
+                setSeccion(result)
+                setDelitos(result.delitos)
+        }
+    }, [secciones])
+
+    useEffect(() => {
+        if(selDelito && delitos){
+            const result = delitos.find(d => {
+                return d.id === selDelito.id
+            })
+            setDelito(result)
+        }        
+    }, [delitos])
+
+    useEffect(()=>{
+        if(selIdModalidad && modalidades){
+            const result = modalidades.find( m => {
+                return m.id === selIdModalidad
+            })
+            setModalidad(result)
+        }
+    }, [modalidades])
 
 
     return (
@@ -31,6 +62,7 @@ const Delito = ({iddelito, idmodalidad, fechainfraccion}) => {
                 <span className="p-float-label">
                     <Dropdown inputId="ddlSeccion" value={seccion} options={secciones} className={!seccion && 'p-invalid'}
                         onChange={(e) => {
+                            
                             setDelitos(null)
                             setSeccion(e.value)
                             e.value != null ? setDelitos(e.value.delitos): setDelitos(null)

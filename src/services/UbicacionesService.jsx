@@ -8,7 +8,7 @@ export class UbicacionesService {
         return data;
     }
 
-    getPovincias = async (idZona) => {
+    getProvincias = async (idZona) => {
         const response = await fetch(getURL() + '/api/provincia/' + idZona);
         const data = await response.json();
         return data;
@@ -22,6 +22,12 @@ export class UbicacionesService {
 
     getDistritos = async (idCanton) => {
         const response = await fetch(getURL() + '/api/distritos/' + idCanton);
+        const data = await response.json();
+        return data;
+    }
+
+    getUbicacion = async (idDistrito) => {
+        const response = await fetch(getURL() + '/api/ubicacion/' + idDistrito);
         const data = await response.json();
         return data;
     }
