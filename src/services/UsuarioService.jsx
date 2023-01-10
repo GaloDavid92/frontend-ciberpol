@@ -21,7 +21,6 @@ export class UsuarioService {
             credentials: 'include'
         });
         const data = await response.json();
-        console.log(data);
         return data;
     }
 }    

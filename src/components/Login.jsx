@@ -14,7 +14,7 @@ const Login = ({isloged}) => {
 
     useEffect(()=>{
         svcUsuario.getSession().then((resp) => {
-            console.log("🚀 ~ file: Login.jsx:16 ~ svcUsuario.getSession ~ resp", resp)
+            resp && resp.id ? isloged(true) : isloged(false)
         })
     },[])
     const [incorrectlogin, setincorrectlogin] = useState(false)
@@ -61,12 +61,7 @@ const Login = ({isloged}) => {
     };
 
     return (
-        <div className="form-demo">            
-            <button onClick={()=>{
-                svcUsuario.getSession().then(r => {
-                    console.log("🚀 ~ file: Login.jsx:67 ~ svcUsuario.getSession ~ r", r)
-                })
-            }}>GET SESSION</button>
+        <div className="form-demo">
             <div className="flex justify-content-center">
                 <div className="card">
                     <div className='text-center'>

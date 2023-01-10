@@ -8,14 +8,21 @@ import 'primeflex/primeflex.css';                          //icons
 
 import Main from './components/Main';
 import Login from './components/Login';
+import Consulta from './components/Consulta';
 
 function App() {
 
    const [login, setlogin] = useState(false)
+   const [isConsulting, setIsConsulting] = useState(true)
+
+   const ciberpolSys = <>
+      {login && <Main />}
+      {!login && <Login isloged={setlogin} />}
+   </>
    return (
       <>
-         {login && <Main/> }
-         {!login &&<Login isloged={setlogin}/>}
+         <Consulta isConsulting={isConsulting} setIsConsulting={setIsConsulting}/>
+         {!isConsulting && ciberpolSys}
       </>
    );
 }

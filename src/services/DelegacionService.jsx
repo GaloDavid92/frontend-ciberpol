@@ -14,6 +14,12 @@ export class DelegacionService {
         return data;
     }
 
+    consultDelegacion = async (buscar) => {
+        const response = await fetch(getURL() + '/api/consultar/'+ buscar);
+        const data = await response.json();
+        return data;
+    }
+
     saveDelegacion = async (newDelegacion) => {
         const requestOptions = {
             method: 'POST',
