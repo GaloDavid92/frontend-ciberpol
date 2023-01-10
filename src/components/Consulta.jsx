@@ -3,6 +3,7 @@ import { Menubar } from 'primereact/menubar';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { ProgressBar } from 'primereact/progressbar';
 
 import uncLogo from '../assets/LOGOUNC.png'
 import fondo from "../assets/fondo.jpg";
@@ -12,6 +13,7 @@ const Consulta = ({ isConsulting, setIsConsulting }) => {
 
     const [busqueda, setBusqueda] = useState('');
     const [delegacion, setdelegacion] = useState(null)
+    const [progress, setprogress] = useState("hidden")
 
     const svcDelegacion = new DelegacionService()
 
@@ -34,6 +36,12 @@ const Consulta = ({ isConsulting, setIsConsulting }) => {
     const header = (
         <img alt="Card" src={fondo} height={'100px'} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} />
     );
+
+    const progrss = (show)=>{
+        if(show) return ""
+        else return "none"
+
+    }
 
     const deleg = () => {
         if (delegacion)
@@ -82,14 +90,17 @@ const Consulta = ({ isConsulting, setIsConsulting }) => {
                         <InputText placeholder="Búsqueda de delegaciones..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
                         <Button icon="pi pi-search" className="p-button-info"
                             onClick={() => {
+                                setprogress("")
                                 svcDelegacion.consultDelegacion(busqueda).then((resp) => {
                                     console.log("🚀 ~ file: Consulta.jsx:51 ~ svcDelegacion.consultDelegacion ~ resp", resp);
                                     setdelegacion(resp)
+                                    setprogress("hidden")
                                 })
                             }}
                         />
                     </div>
                 </div>
+                    <ProgressBar mode="indeterminate" style={{ height: '6px' }} className={progress}></ProgressBar>
                 <p className="m-0" style={{ lineHeight: '1.5' }}>
                     {deleg()}
                 </p>
