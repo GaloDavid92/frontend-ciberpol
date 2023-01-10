@@ -91,6 +91,7 @@ const Consulta = ({ isConsulting, setIsConsulting }) => {
                         <Button icon="pi pi-search" className="p-button-info"
                             onClick={() => {
                                 setprogress("")
+                                setdelegacion(null)
                                 svcDelegacion.consultDelegacion(busqueda).then((resp) => {
                                     console.log("🚀 ~ file: Consulta.jsx:51 ~ svcDelegacion.consultDelegacion ~ resp", resp);
                                     setdelegacion(resp)
