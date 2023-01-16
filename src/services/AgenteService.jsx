@@ -49,5 +49,17 @@ export class AgenteService {
         }
         await fetch(getURL() + '/api/agente', requestOptions);
         return console.log('Deleted');
-    }    
+    }
+
+    countDelegaciones = async () => {
+        const response = await fetch(getURL() + '/api/report');
+        const data = await response.json();
+        return data;        
+    }
+
+    countDelitos = async () => {
+        const response = await fetch(getURL() + '/api/reportdelito');
+        const data = await response.json();
+        return data;        
+    }
 }    

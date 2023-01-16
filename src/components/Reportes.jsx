@@ -1,22 +1,64 @@
 import React, { useState } from 'react';
 import { Chart } from 'primereact/chart';
+import { useEffect } from 'react';
+import { AgenteService } from '../services/AgenteService';
 
 const Reportes = () => {
+
+    const svcAgente = new AgenteService()
+
+    const [dataAgentes, setdataAgentes] = useState({})
+    const [dataDelitos, setdataDelitos] = useState({})
     const [basicData] = useState({
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
         datasets: [
             {
                 label: 'My First dataset',
-                backgroundColor: '#42A5F5',
                 data: [65, 59, 80, 81, 56, 55, 40]
-            },
-            {
-                label: 'My Second dataset',
-                backgroundColor: '#FFA726',
-                data: [28, 48, 40, 19, 86, 27, 90]
             }
         ]
     });
+    useEffect(()=>{
+        svcAgente.countDelegaciones().then(resp => {
+            console.log("🚀 ~ file: Reportes.jsx:37 ~ svcAgente.countDelegaciones ~ resp", resp)
+            const labels = resp.map(a => {
+                return a.nombre
+            })
+            const datos = resp.map(a => {
+                return a._count.delegaciones
+            })
+            console.log("🚀 ~ file: Reportes.jsx:30 ~ datos ~ datos", datos)
+            setdataAgentes({
+                labels,
+                datasets: [
+                    {
+                        label: 'Delegaciones',
+                        data: datos
+                    }
+                ]
+            })
+        })
+        
+        svcAgente.countDelitos().then(resp => {
+            console.log("🚀 ~ file: Reportes.jsx:43 ~ svcAgente.countDelegaciones ~ resp", resp)
+            const labels = resp.map(a => {
+                return a.delito
+            })
+            const datos = resp.map(a => {
+                return a._count.delegaciones
+            })
+            console.log("🚀 ~ file: Reportes.jsx:30 ~ datos ~ datos", datos)
+            setdataDelitos({
+                labels,
+                datasets: [
+                    {
+                        label: 'Delegaciones',
+                        data: datos
+                    }
+                ]
+            })
+        })
+    }, [])
 
     const [multiAxisData] = useState({
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -249,16 +291,16 @@ const Reportes = () => {
     return (
         <div>
             <div className="card">
-                <h5>Vertical</h5>
-                <Chart type="bar" data={basicData} options={basicOptions} />
+                <h5>Delgaciones por Agente</h5>
+                <Chart type="bar" data={dataAgentes} options={horizontalOptions}/>
             </div>
 
             <div className="card">
-                <h5>Horizontal</h5>
-                <Chart type="bar" data={basicData} options={horizontalOptions} />
+                <h5>Delegaciones por Delito</h5>
+                <Chart type="bar" data={dataDelitos} options={horizontalOptions} />
             </div>
 
-            <div className="card">
+            {/* <div className="card">
                 <h5>Multi Axis</h5>
                 <Chart type="bar" data={multiAxisData} options={multiAxisOptions} />
             </div>
@@ -266,7 +308,7 @@ const Reportes = () => {
             <div className="card">
                 <h5>Stacked</h5>
                 <Chart type="bar" data={stackedData} options={stackedOptions} />
-            </div>
+            </div> */}
         </div>
     )
 }
