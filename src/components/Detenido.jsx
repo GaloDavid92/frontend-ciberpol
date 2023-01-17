@@ -47,7 +47,7 @@ const Detenido = ({ nombredetenido, idcondicion, idparentesco, selNombreDetenido
         <>
             <div className="field col-12 md:col-5">
                 <span className="p-float-label">
-                    <InputText id="txtNombreDetenido" value={nombreDetenido} className={!nombreDetenido && 'p-invalid'}
+                    <InputText id="txtNombreDetenido" value={nombreDetenido.toUpperCase()} className={!nombreDetenido && 'p-invalid'}
                         onChange={(e) => {
                             setNombreDetenido(e.target.value)
                             nombredetenido(e.target.value)

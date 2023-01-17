@@ -107,12 +107,12 @@ const DelegacionSecretario = ({ abrir, mode, selectedDelegacion }) => {
       if (!mesIngreso) {
          errors.mesIngreso = 'Seleccione el mes de ingreso';
       }
-      if (!numInvestPrevia) {
-         errors.numInvestPrevia = 'El número de investigacion previa es requerido.';
+      if (!numInvestPrevia && !numInstFiscal) {
+         errors.numInvestPrevia = 'El número de investigacion previa o instruccion fiscal es requerido.';
       }
-      if (!numInstFiscal) {
-         errors.numInstFiscal = 'El número de instrucción fiscal es requerido.';
-      }
+      // if (!numInstFiscal) {
+      //    errors.numInstFiscal = 'El número de instrucción fiscal es requerido.';
+      // }
       if (!idDistrito) {
          errors.idDistrito = 'Zona/Provincia/Cantón/Distrito requeridos';
       }
@@ -188,14 +188,14 @@ const DelegacionSecretario = ({ abrir, mode, selectedDelegacion }) => {
             idDelito,
             idModalidad,
             fechaInfraccion,
-            nombreVictima,
+            nombreVictima: nombreVictima.toUpperCase(),
             sexoVictima,
             edadVictima,
-            nombreDetenido,
+            nombreDetenido: nombreDetenido.toUpperCase(),
             idCondicion,
             idParentesco,
-            nombreFiscal,
-            unidadFiscalia,
+            nombreFiscal: nombreFiscal.toUpperCase(),
+            unidadFiscalia: unidadFiscalia.toUpperCase(),
             fechaDelegacion,
             fechaRecepcionPJ,
             fechaRecAgente,
@@ -237,7 +237,7 @@ const DelegacionSecretario = ({ abrir, mode, selectedDelegacion }) => {
                   <div className="p-fluid grid">
                      <div className="field col-12 md:col-4">
                         <span className="p-float-label">
-                           <InputText id="txtNumInv" value={numInvestPrevia} className={!numInvestPrevia && 'p-invalid'}
+                           <InputText id="txtNumInv" value={numInvestPrevia} className={!numInvestPrevia &&!numInstFiscal && 'p-invalid'}
                               onChange={(e) => {
                                  setNumInvestPrevia(e.target.value)
                               }} />
@@ -246,7 +246,7 @@ const DelegacionSecretario = ({ abrir, mode, selectedDelegacion }) => {
                      </div>
                      <div className="field col-12 md:col-4">
                         <span className="p-float-label">
-                           <InputText id="txtNumInsFis" value={numInstFiscal} className={!numInstFiscal && 'p-invalid'}
+                           <InputText id="txtNumInsFis" value={numInstFiscal} className={!numInvestPrevia &&!numInstFiscal && 'p-invalid'}
                               onChange={(e) => setNumInstFiscal(e.target.value)} />
                            <label htmlFor="txtNumInsFis">NÚMERO DE INSTRUCCIÓN FISCAL</label>
                         </span>
@@ -284,7 +284,7 @@ const DelegacionSecretario = ({ abrir, mode, selectedDelegacion }) => {
                   <div className="p-fluid grid">
                      <div className="field col-12 md:col-6">
                         <span className="p-float-label">
-                           <InputText id="txtApeNomVictima" value={nombreVictima} className={!nombreVictima && 'p-invalid'}
+                           <InputText id="txtApeNomVictima" value={nombreVictima.toUpperCase()} className={!nombreVictima && 'p-invalid'}
                               onChange={(e) => setNombreVictima(e.target.value)} />
                            <label htmlFor="txtApeNomVictima">APELLIDOS Y NOMBRES DE LA VÍCTIMA</label>
                         </span>
@@ -320,14 +320,14 @@ const DelegacionSecretario = ({ abrir, mode, selectedDelegacion }) => {
                   <div className="p-fluid grid">
                      <div className="field col-12 md:col-6">
                         <span className="p-float-label">
-                           <InputText id="txtNombreFiscal" value={nombreFiscal} className={!nombreFiscal && 'p-invalid'}
+                           <InputText id="txtNombreFiscal" value={nombreFiscal.toUpperCase()} className={!nombreFiscal && 'p-invalid'}
                               onChange={(e) => setNombreFiscal(e.target.value)} />
                            <label htmlFor="txtNombreFiscal">APELLIDOS Y NOMBRES DEL FISCAL</label>
                         </span>
                      </div>
                      <div className="field col-12 md:col-6">
                         <span className="p-float-label">
-                           <InputText id="txtUnidadFiscalia" value={unidadFiscalia} className={!unidadFiscalia && 'p-invalid'}
+                           <InputText id="txtUnidadFiscalia" value={unidadFiscalia.toUpperCase()} className={!unidadFiscalia && 'p-invalid'}
                               onChange={(e) => setUnidadFiscalia(e.target.value)} />
                            <label htmlFor="txtUnidadFiscalia">UNIDAD ESPECIALIZADA DE FISCALIA</label>
                         </span>

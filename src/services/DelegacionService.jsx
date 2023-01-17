@@ -42,4 +42,15 @@ export class DelegacionService {
         console.log("🚀 ~ file: DelegacionService.jsx:36 ~ DelegacionService ~ updDelegacionAgente= ~ data", data)
         return data;
     }
+
+    deleteDelegacion = async (delDelegacion) => {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(delDelegacion)
+        }
+        const response = await fetch(getURL() + '/api/delegacion', requestOptions);
+        const data = await response.json();
+        return data;
+    }
 }
