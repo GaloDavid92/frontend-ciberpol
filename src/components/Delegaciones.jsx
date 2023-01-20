@@ -19,7 +19,7 @@ function Delegaciones() {
     const [selectedDelegacion, setSelectedDelegacion] = useState({});
     const [mode, setmode] = useState("")
     const [elimado, setelimado] = useState(false)
-    
+
 
     useEffect(() => {
         svcDelegacion.getDelegaciones().then(data => {
@@ -31,7 +31,7 @@ function Delegaciones() {
         return Object.keys(obj).length === 0;
     }
 
-    const toast = useRef(null);    
+    const toast = useRef(null);
 
     const leftContents = (
         <React.Fragment>
@@ -43,11 +43,11 @@ function Delegaciones() {
                 }} />
             <Button label="Editar" icon="pi pi-pencil" className="p-button-success"
                 onClick={() => {
-                    if(!isEmpty(selectedDelegacion)){                        
+                    if (!isEmpty(selectedDelegacion)) {
                         setmode("U")
                         setVisibleFullScreen(true)
-                    }else{
-                        toast.current.show({severity: 'warn', summary: 'No seleccionado', detail: 'Seleccione la delegación que desea editar'});
+                    } else {
+                        toast.current.show({ severity: 'warn', summary: 'No seleccionado', detail: 'Seleccione la delegación que desea editar' });
                     }
                 }} />
         </React.Fragment>
@@ -57,27 +57,27 @@ function Delegaciones() {
         <React.Fragment>
             {/* <Button icon="pi pi-search" className="mr-2" />
             <Button icon="pi pi-calendar" className="p-button-success mr-2" /> */}
-            <Button icon="pi pi-times" className="p-button-danger" 
-            onClick={() => {
-                if(!isEmpty(selectedDelegacion)){                        
-                    if(confirm("Seguro desea eliminarla delegacion")){
-                        // alert("Eliminado" +  JSON.stringify(selectedDelegacion))
-                        svcDelegacion.deleteDelegacion(selectedDelegacion).then((resp) =>{
-                            alert("Delegacion eliminada")
-                            setelimado(true)
-                        })
+            <Button icon="pi pi-times" className="p-button-danger"
+                onClick={() => {
+                    if (!isEmpty(selectedDelegacion)) {
+                        if (confirm("Seguro desea eliminarla delegacion")) {
+                            // alert("Eliminado" +  JSON.stringify(selectedDelegacion))
+                            svcDelegacion.deleteDelegacion(selectedDelegacion).then((resp) => {
+                                alert("Delegacion eliminada")
+                                setelimado(true)
+                            })
+                        }
+                    } else {
+                        toast.current.show({ severity: 'warn', summary: 'No seleccionado', detail: 'Seleccione la delegación que desea eliminar' });
                     }
-                }else{
-                    toast.current.show({severity: 'warn', summary: 'No seleccionado', detail: 'Seleccione la delegación que desea eliminar'});
-                }
-            }}
+                }}
             />
         </React.Fragment>
     );
 
-    const abrir = (x) =>{
+    const abrir = (x) => {
         setVisibleFullScreen(x);
-        if(!x){            
+        if (!x) {
             setSelectedDelegacion({})
         }
 
@@ -106,7 +106,7 @@ function Delegaciones() {
                 onHide={() => {
                     setSelectedDelegacion({})
                     setVisibleFullScreen(false)
-                    }}>
+                }}>
                 <DelegacionSecretario abrir={abrir} mode={mode} selectedDelegacion={selectedDelegacion} />
             </Sidebar>
         </>

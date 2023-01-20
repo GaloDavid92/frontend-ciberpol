@@ -1,23 +1,22 @@
 import { useState } from 'react'
-import uncLogo from '../assets/LOGOUNC.png'
 
 import { TabMenu } from 'primereact/tabmenu';
 
 import Delegaciones from './Delegaciones';
 import Agentes from './Agentes';
-import DelegacionSecretario from './DelegacionSecretario';
 import DelegacionAgente from './DelegacionAgente';
 import Reportes from './Reportes'
+import DelegacionesAgente from './DelegacionesAgente';
 
 function Main() {
    const [activeIndex, setActiveIndex] = useState(0)
    const items = [
-      { label: 'Delegaciones',           icon: 'pi pi-fw pi-home' },
-      { label: 'Agentes',       icon: 'pi pi-fw pi-users' },
-      { label: 'Edit',           icon: 'pi pi-fw pi-pencil' },
-      { label: 'Documentation',  icon: 'pi pi-fw pi-file' },
+      { label: 'Registro',           icon: 'pi pi-fw pi-home' },
+      { label: 'Usuarios',       icon: 'pi pi-fw pi-users' },
+      { label: 'Agente',  icon: 'pi pi-fw pi-file' },
       { label: 'Reportes',       icon: 'pi pi-fw pi-cog' }
    ];
+
    return (
       <>
          <div className="card navbar">
@@ -32,9 +31,8 @@ function Main() {
          </div>
          {activeIndex == 0 && <Delegaciones />}
          {activeIndex == 1 && <Agentes/>}
-         {activeIndex == 2 && <DelegacionSecretario/>}
-         {activeIndex == 3 && <DelegacionAgente idDelegacion={1}/>}
-         {activeIndex == 4 && <Reportes/>}
+         {activeIndex == 2 && <DelegacionesAgente/>}
+         {activeIndex == 3 && <Reportes/>}
       </>
    );
 }

@@ -9,17 +9,12 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 
-import Ubicacion from './Ubicacion';
-import Agente from './Agente';
-import Delito from './Delito';
-import Detenido from './Detenido';
-import Art444 from './Art444';
 import TipoPeticion from './TipoPeticion';
 import Detenidos from './Detenidos';
 
 import { DelegacionService } from '../services/DelegacionService';
 
-const DelegacionAgente = ({idDelegacion, abrir}) => {
+const DelegacionAgente = ({delegacionEdit, abrir}) => {
 
    const toast = useRef(null);
 
@@ -27,7 +22,7 @@ const DelegacionAgente = ({idDelegacion, abrir}) => {
 
    const svcDelegacion = new DelegacionService()
 
-   const [delegacionEdit, setDelegacionEdit] = useState({})
+   // const [delegacionEdit, setDelegacionEdit] = useState({})
 
    const [cumplimiento, setCumplimiento] = useState("")
    const [fechaCumplimiento, setFechaCumplimiento] = useState("")
@@ -43,12 +38,14 @@ const DelegacionAgente = ({idDelegacion, abrir}) => {
    const [detenidosProdInv, setDetenidosProdInv] = useState([])
    const [observaciones, setObservaciones] = useState("")
 
-   useEffect(()=>{
-      svcDelegacion.getDelegacion(idDelegacion).then((resp)=> {
-         console.log("🚀 ~ file: DelegacionAgente.jsx:69 ~ svcDelegacion.getDelegacion ~ resp", resp)
-         setDelegacionEdit(resp)
-      })
-   },[])
+   // useEffect(()=>{
+   //    if(idDelegacion){
+   //    svcDelegacion.getDelegacion(idDelegacion).then((resp)=> {
+   //       console.log("🚀 ~ file: DelegacionAgente.jsx:69 ~ svcDelegacion.getDelegacion ~ resp", resp)
+   //       setDelegacionEdit(resp)
+   //    })
+   // }
+   // },[])
 
    const meses = [
       'Enero',
@@ -72,7 +69,7 @@ const DelegacionAgente = ({idDelegacion, abrir}) => {
    const saveDelegacion = () => {      
       setSaving(true)
       const objDelegacion = {
-         id: idDelegacion,
+         id: delegacionEdit.id,
          cumplimiento,
          fechaCumplimiento,
          numOficioDescargo,
