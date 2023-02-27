@@ -35,7 +35,7 @@ function DelegacionesAgente() {
             <Toast ref={toast} />
             <div>
                 <div className="card">
-                    <DataTable value={delegaciones} paginator rows={10}
+                    <DataTable value={delegaciones} paginator rows={5}
                         selection={selectedDelegacion} 
                         onSelectionChange={e => {
                             setSelectedDelegacion(e.value)

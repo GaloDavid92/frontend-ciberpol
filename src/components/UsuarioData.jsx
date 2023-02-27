@@ -4,20 +4,19 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { classNames } from 'primereact/utils';
-import { AgenteService } from '../services/AgenteService';
+import { UsuarioService } from '../services/UsuarioService';
 
-const AgenteData = ({ abrir, mode, agente}) => {
+const UsuarioData = ({ abrir, mode, agente, tipoUser}) => {
 
-    const svcAgente = new AgenteService()
+    const svcUsuario = new UsuarioService()
 
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState({});
     const [correos, setcorreos] = useState([])
 
     useEffect(()=>{
-        svcAgente.getCorreos().then((resp) => {
+        svcUsuario.getCorreos().then((resp) => {
             if(mode == "U"){
-                console.log(agente)
                 setcorreos(resp.filter(e => e.correo !== agente.usuario.correo))
             }
             if(mode == "C"){
@@ -60,11 +59,13 @@ const AgenteData = ({ abrir, mode, agente}) => {
     }
 
     const submitAgente = (data) => {
+        console.log(mode);
         setFormData(data);
         if (mode == "C") {
-            svcAgente.saveAgente({
+            svcUsuario.saveUsuario({
                     nombre: data.name,
-                    correo: data.email
+                    correo: data.email,
+                    tipo: tipoUser
                 })
             .then((resp) => {                
                 resp.error? console.log("🚀 ~ file: AgenteData.jsx ~ line 57 ~ .then ~ resp", resp) : setShowMessage(true);
@@ -72,7 +73,7 @@ const AgenteData = ({ abrir, mode, agente}) => {
             });
         }
         if (mode == "U") {
-            svcAgente.editAgente({
+            svcUsuario.editAgente({
                     id: data.id,
                     nombre: data.name,
                     correo: data.email
@@ -137,4 +138,4 @@ const AgenteData = ({ abrir, mode, agente}) => {
     );
 }
 
-export default AgenteData
+export default UsuarioData

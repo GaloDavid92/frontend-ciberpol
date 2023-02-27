@@ -4,19 +4,21 @@ import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-
+import { SplitButton } from 'primereact/splitbutton';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Dialog } from 'primereact/dialog';
 
 import { AgenteService } from '../services/AgenteService';
 
 import AgenteData from './AgenteData';
+import UsuarioData from './UsuarioData';
 
 const svcAgente = new AgenteService();
 
-function Delegaciones() {
+function Usuarios() {
 
     const [mode, setMode] = useState("");
+    const [tipoUser, settipoUser] = useState("")
     const [agentes, setAgentes] = useState(null);
     const [selectedAgente, setSelectedAgente] = useState(null);
 
@@ -30,6 +32,35 @@ function Delegaciones() {
 
     const toast = useRef(null);
 
+    const items = [
+        {
+            label: 'Agente',
+            icon: 'pi pi-users',
+            command: () => {
+                settipoUser("Agente")
+                setMode("C")
+                setDisplayAgenteData(true)
+            }
+        },
+        {
+            label: 'Secretario',
+            icon: 'pi pi-user-edit',
+            command: () => {
+                settipoUser("Secretario")
+                setMode("C")
+                setDisplayAgenteData(true)
+            }
+        },
+        {
+            label: 'Administrador',
+            icon: 'pi pi-user',
+            command: () => {
+                settipoUser("Administrador")
+                setDisplayAgenteData(true)
+            }
+        }
+    ];
+
     const leftContents = (
         <React.Fragment>
             <Button label="Nuevo" icon="pi pi-plus" className="mr-2 p-button-success"
@@ -37,6 +68,7 @@ function Delegaciones() {
                     setMode("C")
                     setDisplayAgenteData(true)
                 }} />
+                <SplitButton label="Save" icon="pi pi-plus" model={items} />
         </React.Fragment>
     );
 
@@ -68,6 +100,7 @@ function Delegaciones() {
             <>
                 <Button icon="pi pi-pencil" className='p-button-rounded mr-2'
                     onClick={(e) => {
+                        settipoUser(rowData.usuario.tipo)
                         setSelectedAgente(rowData)
                         setMode("U")
                         setDisplayAgenteData(true)
@@ -100,13 +133,14 @@ function Delegaciones() {
                     </DataTable>
                 </div>
             </div>
-            <Dialog header="Agente" visible={displayAgenteData} style={{ width: '50vw' }}
+            <Dialog header={tipoUser} visible={displayAgenteData} style={{ width: '50vw' }}
                 footer={(<div><small>Al crear o actualizar se generará una nueva contraseña</small></div>)}
                 onHide={() => setDisplayAgenteData(false)}>
-                <AgenteData abrir={setDisplayAgenteData} mode={mode} agente={selectedAgente} />
+                {tipoUser == "Agente" && <AgenteData abrir={setDisplayAgenteData} mode={mode} agente={selectedAgente} />}
+                {(tipoUser == "Secretario" || tipoUser=="Administrador") && <UsuarioData abrir={setDisplayAgenteData} mode={mode} agente={selectedAgente} tipoUser={tipoUser}/>}
             </Dialog>
         </>
     )
 }
 
-export default Delegaciones;
+export default Usuarios;
