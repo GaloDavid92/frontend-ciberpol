@@ -20,14 +20,12 @@ const Reportes = () => {
     });
     useEffect(()=>{
         svcAgente.countDelegaciones().then(resp => {
-            console.log("🚀 ~ file: Reportes.jsx:37 ~ svcAgente.countDelegaciones ~ resp", resp)
             const labels = resp.map(a => {
                 return a.nombre
             })
             const datos = resp.map(a => {
                 return a._count.delegaciones
             })
-            console.log("🚀 ~ file: Reportes.jsx:30 ~ datos ~ datos", datos)
             setdataAgentes({
                 labels,
                 datasets: [
@@ -40,14 +38,12 @@ const Reportes = () => {
         })
         
         svcAgente.countDelitos().then(resp => {
-            console.log("🚀 ~ file: Reportes.jsx:43 ~ svcAgente.countDelegaciones ~ resp", resp)
             const labels = resp.map(a => {
                 return a.delito
             })
             const datos = resp.map(a => {
                 return a._count.delegaciones
             })
-            console.log("🚀 ~ file: Reportes.jsx:30 ~ datos ~ datos", datos)
             setdataDelitos({
                 labels,
                 datasets: [

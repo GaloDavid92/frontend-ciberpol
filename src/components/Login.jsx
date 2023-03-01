@@ -14,6 +14,7 @@ const Login = ({isloged}) => {
 
     useEffect(()=>{
         svcUsuario.getSession().then((resp) => {
+            localStorage.setItem("user", JSON.stringify(resp));
             resp && resp.id ? isloged(true) : isloged(false)
         })
     },[])
@@ -44,11 +45,14 @@ const Login = ({isloged}) => {
                 correo: data.email,
                 clave: data.password
             }).then(resp => {
-                console.log("🚀 ~ file: Login.jsx:40 ~ Login ~ resp", resp)
                 resp ? setincorrectlogin(false) : setincorrectlogin(true)
                 svcUsuario.getSession().then(r => {
-                    r.id ? isloged(true) : isloged(false)
-                    console.log("🚀 ~ file: Login.jsx:51 ~ svcUsuario.getSession ~ r", r)
+                    if (r.id) {
+                        isloged(true)
+                        localStorage.setItem("user", JSON.stringify(r));
+                    } else {
+                        isloged(false)
+                    }
                     // isloged(true)
                 })
             })

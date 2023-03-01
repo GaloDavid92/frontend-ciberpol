@@ -8,6 +8,7 @@ import { ProgressBar } from 'primereact/progressbar';
 import uncLogo from '../assets/LOGOUNC.png'
 import fondo from "../assets/fondo.jpg";
 import { DelegacionService } from '../services/DelegacionService';
+import { UsuarioService } from '../services/UsuarioService';
 
 const Consulta = ({ isConsulting, setIsConsulting }) => {
 
@@ -16,6 +17,7 @@ const Consulta = ({ isConsulting, setIsConsulting }) => {
     const [progress, setprogress] = useState("hidden")
 
     const svcDelegacion = new DelegacionService()
+    const svcUsuario = new UsuarioService()
 
     const start =
         <>
@@ -26,12 +28,20 @@ const Consulta = ({ isConsulting, setIsConsulting }) => {
         </>;
 
 
-    const end = <Button icon="pi pi-bookmark" className="p-button-text p-button-plain"
+    const end = 
+    <><Button icon="pi pi-bookmark" className="p-button-text p-button-plain"
         label={isConsulting ? "Ingresar al sistema" : "Consultas"}
         onClick={() => {
             setIsConsulting(!isConsulting)
         }}
-    />;
+    />
+    {!isConsulting && <Button icon="pi pi-power-off" className="p-button-text" label='Salir' 
+    onClick={() =>{
+        svcUsuario.logout()
+        localStorage.clear();
+        window.location.href = '/auth/logout';
+    }}/>}
+    </>;
 
     const header = (
         <img alt="Card" src={fondo} height={'100px'} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} />
@@ -93,7 +103,6 @@ const Consulta = ({ isConsulting, setIsConsulting }) => {
                                 setprogress("")
                                 setdelegacion(null)
                                 svcDelegacion.consultDelegacion(busqueda).then((resp) => {
-                                    console.log("🚀 ~ file: Consulta.jsx:51 ~ svcDelegacion.consultDelegacion ~ resp", resp);
                                     setdelegacion(resp)
                                     setprogress("hidden")
                                 })

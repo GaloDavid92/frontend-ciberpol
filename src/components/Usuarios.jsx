@@ -9,11 +9,13 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Dialog } from 'primereact/dialog';
 
 import { AgenteService } from '../services/AgenteService';
+import {UsuarioService} from '../services/UsuarioService';
 
 import AgenteData from './AgenteData';
 import UsuarioData from './UsuarioData';
 
 const svcAgente = new AgenteService();
+const svcUsuario = new UsuarioService();
 
 function Usuarios() {
 
@@ -21,10 +23,15 @@ function Usuarios() {
     const [tipoUser, settipoUser] = useState("")
     const [agentes, setAgentes] = useState(null);
     const [selectedAgente, setSelectedAgente] = useState(null);
+    const [usuarios, setUsuarios] = useState(null);
+    const [usuario, setusuario] = useState(null)
 
     const [displayAgenteData, setDisplayAgenteData] = useState(false);
 
     useEffect(() => {
+        svcUsuario.getUsuarios().then((data) => {
+            setUsuarios(data);
+        })
         svcAgente.getAgentes().then(data => {
             setAgentes(data)
         })
@@ -56,6 +63,7 @@ function Usuarios() {
             icon: 'pi pi-user',
             command: () => {
                 settipoUser("Administrador")
+                setMode("C")
                 setDisplayAgenteData(true)
             }
         }
@@ -63,12 +71,7 @@ function Usuarios() {
 
     const leftContents = (
         <React.Fragment>
-            <Button label="Nuevo" icon="pi pi-plus" className="mr-2 p-button-success"
-                onClick={() => {
-                    setMode("C")
-                    setDisplayAgenteData(true)
-                }} />
-                <SplitButton label="Save" icon="pi pi-plus" model={items} />
+                <SplitButton label="Nuevo" icon="pi pi-plus" model={items} />
         </React.Fragment>
     );
 
@@ -100,7 +103,7 @@ function Usuarios() {
             <>
                 <Button icon="pi pi-pencil" className='p-button-rounded mr-2'
                     onClick={(e) => {
-                        settipoUser(rowData.usuario.tipo)
+                        settipoUser(rowData.tipo)
                         setSelectedAgente(rowData)
                         setMode("U")
                         setDisplayAgenteData(true)
@@ -120,15 +123,16 @@ function Usuarios() {
             <Toast ref={toast} />
             <div>
                 <div className="card">
-                    <DataTable value={agentes} paginator rows={10} selection={selectedAgente}
+                    <DataTable value={usuarios} paginator rows={10} selection={selectedAgente}
                         onSelectionChange={e => {
                             setSelectedAgente(e.value)
                         }}
                         selectionMode="single" dataKey="id" responsiveLayout="scroll"
-                        stateStorage="session" stateKey="dt-state-demo-session" emptyMessage="No customers found.">
-                        <Column field="id" header="ID" sortable filter filterPlaceholder="Search by name"></Column>
-                        <Column field="nombre" header="APELLIDOS Y NOMBRES" sortable filter filterPlaceholder="Search by name"></Column>
-                        <Column field="usuario.correo" header="CORREO" sortable filter filterPlaceholder="Search by name"></Column>
+                        stateStorage="session" stateKey="dt-state-demo-session" emptyMessage="Sin registro de usuarios...">
+                        <Column field="id" header="ID" sortable filter filterPlaceholder="Buscar por Id"></Column>
+                        <Column field="nombre" header="APELLIDOS Y NOMBRES" sortable filter filterPlaceholder="Buscar por nombre"></Column>
+                        <Column field="tipo" header="TIPO" sortable filter filterPlaceholder="Buscar por correo"></Column>
+                        <Column field="correo" header="CORREO" sortable filter filterPlaceholder="Buscar por correo"></Column>
                         <Column header="ACCIONES" body={statusBodyTemplate}></Column>
                     </DataTable>
                 </div>

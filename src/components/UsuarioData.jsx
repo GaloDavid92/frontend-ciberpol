@@ -6,7 +6,7 @@ import { Dialog } from 'primereact/dialog';
 import { classNames } from 'primereact/utils';
 import { UsuarioService } from '../services/UsuarioService';
 
-const UsuarioData = ({ abrir, mode, agente, tipoUser}) => {
+const UsuarioData = ({ abrir, mode, agente: usuario, tipoUser}) => {
 
     const svcUsuario = new UsuarioService()
 
@@ -17,7 +17,7 @@ const UsuarioData = ({ abrir, mode, agente, tipoUser}) => {
     useEffect(()=>{
         svcUsuario.getCorreos().then((resp) => {
             if(mode == "U"){
-                setcorreos(resp.filter(e => e.correo !== agente.usuario.correo))
+                setcorreos(resp.filter(e => e.correo !== usuario.correo))
             }
             if(mode == "C"){
                 setcorreos(resp)
@@ -47,9 +47,9 @@ const UsuarioData = ({ abrir, mode, agente, tipoUser}) => {
     const datosIniciales = ()=>{
         if(mode=="U"){
             return {
-                id: agente.id,
-                name: agente.nombre,
-                email: agente.usuario.correo,                
+                id: usuario.id,
+                name: usuario.nombre,
+                email: usuario.correo,                
             }
         }
         else return {
@@ -59,7 +59,6 @@ const UsuarioData = ({ abrir, mode, agente, tipoUser}) => {
     }
 
     const submitAgente = (data) => {
-        console.log(mode);
         setFormData(data);
         if (mode == "C") {
             svcUsuario.saveUsuario({
@@ -73,7 +72,7 @@ const UsuarioData = ({ abrir, mode, agente, tipoUser}) => {
             });
         }
         if (mode == "U") {
-            svcUsuario.editAgente({
+            svcUsuario.editUsuario({
                     id: data.id,
                     nombre: data.name,
                     correo: data.email

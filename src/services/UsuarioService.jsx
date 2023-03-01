@@ -14,6 +14,11 @@ export class UsuarioService {
         return data;
     }
 
+    logout = async () => {        
+        const response = await fetch(getURL() + '/auth/logout');
+        const data = await response;
+    }
+
     getSession = async () => {
         const response = await fetch(getURL() + '/auth/login', {
             method: 'GET',
@@ -37,6 +42,23 @@ export class UsuarioService {
     
     getCorreos = async () => {
         const response = await fetch(getURL() + '/api/correos');
+        const data = await response.json();
+        return data;
+    }
+
+    getUsuarios = async () => {
+        const response = await fetch(getURL() + '/api/usuarios');
+        const data = await response.json();
+        return data;
+    }
+    
+    editUsuario = async (updUsuario) => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updUsuario)
+        }
+        const response = await fetch(getURL() + '/api/usuario', requestOptions);
         const data = await response.json();
         return data;
     }

@@ -154,7 +154,6 @@ function ContenidoCurso() {
                     <div className="flex-grow-1  m-0 px-0 py-0 border-round">
                         <Editor style={{ height: '85vh' }} value={text} onTextChange={(e) => {
                             setText(e.htmlValue)
-                            console.log(e.htmlValue)
                         }} />
                     </div>
                     <div className="flex-none flex align-items-center justify-content-center bg-blue-500 font-bold text-white m-2 px-5 py-3 border-round">PrimeFlex</div>

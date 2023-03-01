@@ -17,8 +17,7 @@ const AgenteData = ({ abrir, mode, agente}) => {
     useEffect(()=>{
         svcAgente.getCorreos().then((resp) => {
             if(mode == "U"){
-                console.log(agente)
-                setcorreos(resp.filter(e => e.correo !== agente.usuario.correo))
+                setcorreos(resp.filter(e => e.correo !== agente.correo))
             }
             if(mode == "C"){
                 setcorreos(resp)
@@ -48,9 +47,9 @@ const AgenteData = ({ abrir, mode, agente}) => {
     const datosIniciales = ()=>{
         if(mode=="U"){
             return {
-                id: agente.id,
+                id: agente.agente.id,
                 name: agente.nombre,
-                email: agente.usuario.correo,                
+                email: agente.correo,                
             }
         }
         else return {
@@ -67,7 +66,7 @@ const AgenteData = ({ abrir, mode, agente}) => {
                     correo: data.email
                 })
             .then((resp) => {                
-                resp.error? console.log("🚀 ~ file: AgenteData.jsx ~ line 57 ~ .then ~ resp", resp) : setShowMessage(true);
+                resp.error? console.log(resp) : setShowMessage(true);
                 formik.resetForm();
             });
         }

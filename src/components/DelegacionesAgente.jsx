@@ -36,13 +36,12 @@ function DelegacionesAgente() {
             <div>
                 <div className="card">
                     <DataTable value={delegaciones} paginator rows={5}
-                        selection={selectedDelegacion} 
+                        selection={selectedDelegacion}
                         onSelectionChange={e => {
                             setSelectedDelegacion(e.value)
-                            console.log("🚀 ~ file: DelegacionesAgente.jsx:42 ~ DelegacionesAgente ~ value", e.value)
-                            
-                            setDelegacio(<DelegacionAgente delegacionEdit={e.value}/>)
-                        }} 
+
+                            setDelegacio(<DelegacionAgente delegacionEdit={e.value} />)
+                        }}
                         selectionMode="single" dataKey="id" responsiveLayout="scroll"
                         stateStorage="session" stateKey="dt-state-demo-session" emptyMessage="No customers found.">
                         <Column field="id" header="ÓRDEN" sortable filter filterPlaceholder="Search by name"></Column>

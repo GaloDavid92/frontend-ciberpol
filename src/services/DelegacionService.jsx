@@ -39,7 +39,6 @@ export class DelegacionService {
         }
         const response = await fetch(getURL() + '/api/agente/delegacion', requestOptions);
         const data = await response.json();
-        console.log("🚀 ~ file: DelegacionService.jsx:36 ~ DelegacionService ~ updDelegacionAgente= ~ data", data)
         return data;
     }
 
